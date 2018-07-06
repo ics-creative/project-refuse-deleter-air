@@ -28,7 +28,7 @@ THE SOFTWARE.
 -->
 
 	<!-- The application identifier string, unique to this application. Required. -->
-	<id>jp.clockmaker.RefuseDeeleter</id>
+	<id>jp.clockmaker.RefuseDeleter</id>
 
 	<!-- Used as the filename for the application. Required. -->
 	<filename>カス削除くん</filename>
@@ -45,7 +45,7 @@ THE SOFTWARE.
 	<!-- <description></description> -->
 
 	<!-- Copyright information. Optional -->
-	<copyright>2010 ClockMaker</copyright>
+	<copyright>2018 ClockMaker</copyright>
 
 	<!-- Publisher ID. Used if you're updating an application created prior to 1.5.3 -->
 	<!-- <publisherID></publisherID> -->
