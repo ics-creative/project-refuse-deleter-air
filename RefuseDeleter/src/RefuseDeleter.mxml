@@ -179,7 +179,7 @@ THE SOFTWARE.
 				const searchCommand:SearchFileCommand = new SearchFileCommand(_dir, form);
 				searchCommand.onPosition = function():void
 				{
-					_progressPanel.progress.label = "検索中(" + searchCommand.seachCount + "項目)";
+					_progressPanel.progress.label = "検索中(" + searchCommand.seachCount + "項目)  ";
 				};
 				
 				var oldTime:Number = getTimer();
