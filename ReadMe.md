@@ -2,9 +2,7 @@
 
 OS やファイル管理システムが作成する不可視ファイル（通称：カスファイル）を一括で削除するアプリです。主にWeb/RIA開発などでファイルを公開・納品するときなどに役立ちます。
 
-
-- [詳しくはこちら](http://clockmaker.jp/blog/2010/08/refusedeleter/)
-- ダウンロードはこちら
+- [ダウンロードはこちら](RefuseDeleter/air/RefuseDeleter_0.5.0_alpha2.air)
 
 
 次のリンクから「カス削除くん」の最新版の AIR アプリのファイルをダウンロードできます。AIR アプリなので、Windows/macOS/Linux のいずれの OS でも利用可能です。
@@ -48,4 +46,4 @@ Mac や Windows で作られる不可視ファイルは、OS をまたいでフ�
 
 - [WindowsやMac OSが残す“カスファイル”を一掃する（第142回） \| 日経 xTECH（クロステック）](https://tech.nikkeibp.co.jp/it/pc/article/special/20101108/1028379/)
 - [不要になる不可視ファイルを一括削除「カス削除くん」 \- 今日のお気に入り \- 窓の杜](https://forest.watch.impress.co.jp/docs/serial/okiniiri/398205.html)
-
+- [リリース時の記事](http://clockmaker.jp/blog/2010/08/refusedeleter/)
