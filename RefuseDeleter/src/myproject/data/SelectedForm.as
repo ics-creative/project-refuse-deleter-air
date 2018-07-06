@@ -25,16 +25,20 @@ THE SOFTWARE.
 */
 package myproject.data
 {
+
 	/**
-	 * フォーム等の値を保持するクラスです。 
+	 * フォーム等の値を保持するクラスです。
 	 * @author yasu
 	 */
 	public class SelectedForm
 	{
-		public function SelectedForm()
-		{
-		}
-		
+
+		//----------------------------------------------------------
+		//
+		//   Property 
+		//
+		//----------------------------------------------------------
+
 		public var selectedCheckChild:Boolean;
 		public var selected_DOT_DS_STORE:Boolean;
 		public var selected_THUMBS_DB:Boolean;
@@ -45,5 +49,21 @@ package myproject.data
 		public var selected__NOTES:Boolean;
 		public var selected___MACOSX:Boolean;
 		public var selected_APPLE_DOUBLE:Boolean;
+
+		public var selected_DOT_GIT:Boolean;
+		public var selected_DOT_GITIGNORE:Boolean;
+		public var selected_NODE_MODULES:Boolean;
+		public var selected_DOT_VSCODE:Boolean;
+		public var selected_DOT_IDEA:Boolean;
+
+		//----------------------------------------------------------
+		//
+		//   Constructor 
+		//
+		//----------------------------------------------------------
+
+		public function SelectedForm()
+		{
+		}
 	}
 }

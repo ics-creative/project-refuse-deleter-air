@@ -28,12 +28,12 @@ package myproject.commands
 	import flash.filesystem.File;
 	import flash.system.System;
 	import flash.utils.getTimer;
-	
+
 	import jp.progression.commands.Command;
 	import jp.progression.commands.Func;
 	import jp.progression.commands.Wait;
 	import jp.progression.commands.lists.SerialList;
-	
+
 	import myproject.data.FileName;
 	import myproject.data.FolderName;
 	import myproject.data.SelectedForm;
@@ -45,9 +45,60 @@ package myproject.commands
 	 */
 	public class SearchFileCommand extends SerialList
 	{
+
+		//----------------------------------------------------------
+		//
+		//   Static Property 
+		//
+		//----------------------------------------------------------
+
 		private static const ASYNC_RESUME_COUNT:Number = 50;
 		private static const GC_COUNT:Number = 500;
 		private static const WAIT_TIME:Number = 1.000 / 60 * 2;
+
+		//----------------------------------------------------------
+		//
+		//   Property 
+		//
+		//----------------------------------------------------------
+
+		//--------------------------------------
+		// seachCount 
+		//--------------------------------------
+
+		private var _seachCount:int = 0;
+
+		public function get seachCount():int
+		{
+			return _seachCount;
+		}
+
+		//--------------------------------------
+		// fileArr 
+		//--------------------------------------
+
+		private var _fileArr:Vector.<File>;
+
+		public function get fileArr():Array
+		{
+			var arr:Array = [];
+			for (var i:int = 0; i < _fileArr.length; i++)
+			{
+				arr[i] = _fileArr[i];
+			}
+			return arr;
+		}
+
+		private var _form:SelectedForm;
+		private var _seachTotal:int = 0;
+		private var _asyncCnt:int;
+		private var _dir:File;
+
+		//----------------------------------------------------------
+		//
+		//   Constructor 
+		//
+		//----------------------------------------------------------
 
 		/**
 		 * 新しい SearchFileCommand インスタンスを作成します。
@@ -60,33 +111,11 @@ package myproject.commands
 			_seachCount = 0;
 			_seachTotal = 0;
 			_fileArr = new Vector.<File>;
-			
+
 			addCommand(
-				new Func(searchCore, [ dir ])
+				new Func(searchCore, [dir])
 				);
 		}
-
-		public function get fileArr():Array
-		{
-			var arr:Array = [];
-			for (var i:int = 0; i < _fileArr.length; i++)
-			{
-				arr[i] = _fileArr[i];
-			}
-			return arr;
-		}
-
-		public function get seachCount():int
-		{
-			return _seachCount;
-		}
-
-		private var _form:SelectedForm;
-		private var _seachCount:int = 0;
-		private var _seachTotal:int = 0;
-		private var _asyncCnt:int;
-		private var _fileArr:Vector.<File>;
-		private var _dir:File;
 
 		/**
 		 * @inheritDoc
@@ -129,11 +158,31 @@ package myproject.commands
 				{
 					_fileArr.push(target);
 				}
+				else if (_form.selected_DOT_GIT && fileName == FolderName.DOT_GIT)
+				{
+					_fileArr.push(target);
+				}
+				else if (_form.selected_DOT_IDEA && fileName == FolderName.DOT_IDEA)
+				{
+					_fileArr.push(target);
+				}
+				else if (_form.selected_DOT_VSCODE && fileName == FolderName.DOT_VSCODE)
+				{
+					_fileArr.push(target);
+				}
+				else if (_form.selected__NOTES && fileName == FolderName._NOTES)
+				{
+					_fileArr.push(target);
+				}
 				else if (_form.selected__NOTES && fileName == FolderName._NOTES)
 				{
 					_fileArr.push(target);
 				}
 				else if (_form.selected___MACOSX && fileName == FolderName.__MACOSX)
+				{
+					_fileArr.push(target);
+				}
+				else if (_form.selected_NODE_MODULES && fileName == FolderName.NODE_MODULES)
 				{
 					_fileArr.push(target);
 				}
@@ -150,7 +199,7 @@ package myproject.commands
 						insertCommand(
 							getDirectoryListing,
 							new Func(ret, [getDirectoryListing])
-						);
+							);
 					}
 				}
 			}
@@ -161,6 +210,10 @@ package myproject.commands
 					_fileArr.push(target);
 				}
 				else if (_form.selected_THUMBS_DB && fileName == FileName.THUMBS_DB)
+				{
+					_fileArr.push(target);
+				}
+				if (_form.selected_DOT_GITIGNORE && fileName == FileName.GIT_IGNORE)
 				{
 					_fileArr.push(target);
 				}
@@ -184,15 +237,15 @@ package myproject.commands
 
 			_seachCount++;
 		}
-		
+
 		private function _searchSubDirectory(files:Array):void
 		{
 			_seachTotal += files.length;
-			
+
 			for (var i:int = 0; i < files.length; i++)
 			{
 				var element:File = files[i] as File;
-				
+
 				// ASYNC_RESUME_COUNT 回ごとに1回休憩する(フレームを進ませる)
 				if (_asyncCnt++ % ASYNC_RESUME_COUNT == 0)
 				{
@@ -213,15 +266,16 @@ package myproject.commands
 //							trace("gc", getTimer() - old);
 //						});
 //				}
-				
+
 				// コマンドを追加(再帰処理)
 				insertCommand(
-					new Func(searchCore, [ element ])
-				);
+					new Func(searchCore, [element])
+					);
 			}
 		}
-		
-		private function ret(getDirectoryListing:GetDirectoryListing):void{
+
+		private function ret(getDirectoryListing:GetDirectoryListing):void
+		{
 			var files:Array = getDirectoryListing.files;
 			_searchSubDirectory(files);
 		}

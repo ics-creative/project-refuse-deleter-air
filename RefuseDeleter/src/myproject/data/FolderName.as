@@ -28,8 +28,19 @@ package myproject.data
 
 	public class FolderName
 	{
+
+		//----------------------------------------------------------
+		//
+		//   Static Property 
+		//
+		//----------------------------------------------------------
+
 		public static const DOT_SVN:String = ".svn";
 		public static const _NOTES:String = "_notes";
 		public static const __MACOSX:String = "__MACOSX";
+		public static const DOT_GIT:String = ".git";
+		public static const NODE_MODULES:String = "node_modules";
+		public static const DOT_IDEA:String = ".idea";
+		public static const DOT_VSCODE:String = ".vscode";
 	}
 }

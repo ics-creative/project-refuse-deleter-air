@@ -4,7 +4,7 @@
 
 The MIT License
 
-Copyright (c) 2010 Yasunobu Ikeda
+Copyright (c) 2018 Yasunobu Ikeda
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -112,8 +112,8 @@ THE SOFTWARE.
 
 				resumeSharedObject();
 				
-				var message:XML = this.nativeApplication.applicationDescriptor;
-				var atom:Namespace = new Namespace("http://ns.adobe.com/air/application/2.5");
+				const message:XML = this.nativeApplication.applicationDescriptor;
+				const atom:Namespace = new Namespace("http://ns.adobe.com/air/application/24.0");
 				versionLabel.text = "Version " + message.atom::versionNumber;
 			}
 
@@ -170,8 +170,13 @@ THE SOFTWARE.
 				form.selected_DOT_DS_STORE = _cbDSStore.selected;
 				form.selected_DOT_SVN = _cbSVN.selected;
 				form.selected_THUMBS_DB = _cbThumb.selected;
+				form.selected_DOT_GIT = _cbGit.selected;
+				form.selected_DOT_GITIGNORE = _cbGitIgnore.selected;
+				form.selected_NODE_MODULES = _cbNode.selected;
+				form.selected_DOT_VSCODE = _cbVscode.selected;
+				form.selected_DOT_IDEA = _cbIdea.selected;
 				
-				var searchCommand:SearchFileCommand = new SearchFileCommand(_dir, form);
+				const searchCommand:SearchFileCommand = new SearchFileCommand(_dir, form);
 				searchCommand.onPosition = function():void
 				{
 					_progressPanel.progress.label = "検索中(" + searchCommand.seachCount + "項目)";
@@ -295,7 +300,7 @@ THE SOFTWARE.
 					_fileArrCl.source = _fileArr;
 					_fileNum = _fileArr.length;
 
-					Alert.show("\n" + "カスを削除しました", "完了", 2);
+					Alert.show("\n" + "カスを削除しました", "完了");
 				}
 			}
 
@@ -312,7 +317,12 @@ THE SOFTWARE.
 						_cbChild: _cbChild.selected,
 						_cbDesktopIni: _cbDesktopIni.selected,
 						_cbAppleDouble: _cbAppleDouble.selected,
-						_cbMACOSX: _cbMACOSX.selected
+						_cbMACOSX: _cbMACOSX.selected,
+						_cbGit : _cbGit.selected,
+						_cbGitIgnore : _cbGitIgnore.selected,
+						_cbNode : _cbNode.selected,
+						_cbIdea : _cbIdea.selected,
+						_cbVscode : _cbVscode.selected
 					};
 				so.flush();
 			}
@@ -332,6 +342,11 @@ THE SOFTWARE.
 					_cbDesktopIni.selected = so.data.config._cbDesktopIni;
 					_cbAppleDouble.selected = so.data.config._cbAppleDouble;
 					_cbMACOSX.selected = so.data.config._cbMACOSX;
+					_cbGit.selected = so.data.config._cbGit;
+					_cbGitIgnore.selected = so.data.config._cbGitIgnore;
+					_cbNode.selected = so.data.config._cbNode;
+					_cbIdea.selected = so.data.config._cbIdea;
+					_cbVscode.selected = so.data.config._cbVscode;
 				}
 			}
 
@@ -343,7 +358,7 @@ THE SOFTWARE.
 
 			protected function version_clickHandler(event:MouseEvent):void
 			{
-				navigateToURL(new URLRequest("http://code.google.com/p/clockmaker-tools/"));
+				navigateToURL(new URLRequest("https://github.com/ics-creative/project-refuse-deleter-air/"));
 			}
 
 
@@ -493,17 +508,17 @@ THE SOFTWARE.
 
 				<mx:HRule width="100%"/>
 
-				<s:Label text="Mac OS X 関連"
+				<s:Label text="macOS 関連"
 						 fontWeight="bold"/>
 				<s:VGroup>
 					<s:CheckBox id="_cbDSStore"
 								 label="{FileName.DOT_DS_STORE}"
 								 selected="true"
-								 toolTip="Mac OS X のカスファイルです。"/>
+								 toolTip="macOS のカスファイルです。"/>
 					<s:CheckBox id="_cbMACOSX"
 								 label="{FolderName.__MACOSX + ' フォルダ'}"
 								 selected="true"
-								 toolTip="Mac OS X のカスフォルダです。"/>
+								 toolTip="macOS のカスフォルダです。"/>
 					<s:CheckBox id="_cbAppleDouble"
 								 label="AppleDouble File"
 								 selected="true"
@@ -514,14 +529,40 @@ THE SOFTWARE.
 				<s:Label text="バージョン管理システム関連"
 						 fontWeight="bold"/>
 				<s:VGroup>
+					<s:CheckBox id="_cbGit"
+								label=".git フォルダ"
+								selected="false"
+								toolTip="Git のカスフォルダです。"/>
+					<s:CheckBox id="_cbGitIgnore"
+								label=".gitignore ファイル"
+								selected="false"
+								toolTip="Git のカスフォルダです。"/>
 					<s:CheckBox id="_cbSVN"
 								 label=".svn フォルダ"
 								 selected="false"
 								 toolTip="Subversion のカスフォルダです。"/>
 				</s:VGroup>
+				
+				<mx:HRule width="100%"/>
+				<s:Label text="ウェブ制作関連"
+						 fontWeight="bold"/>
+				<s:VGroup>
+					<s:CheckBox id="_cbNode"
+								label="node_modules フォルダ"
+								selected="false"
+								toolTip="Node.js のカスフォルダです。"/>
+					<s:CheckBox id="_cbIdea"
+								label=".idea フォルダ"
+								selected="false"
+								toolTip="IntelliJ IDEA や WebStorm のカスフォルダです。"/>
+					<s:CheckBox id="_cbVscode"
+								label=".vscode フォルダ"
+								selected="false"
+								toolTip="Visual Studio Code のカスフォルダです。"/>
+				</s:VGroup>
 
 				<mx:HRule width="100%"/>
-				<s:Label text="Creative Suite 関連"
+				<s:Label text="Creative Cloud 関連"
 						 fontWeight="bold"/>
 				<s:VGroup>
 					<s:CheckBox id="_cbBridge"
