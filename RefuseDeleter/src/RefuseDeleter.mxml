@@ -221,7 +221,7 @@ THE SOFTWARE.
 
 			protected function onNativeDragEnter(e:NativeDragEvent):void
 			{
-				var data:Clipboard = e.clipboard;
+				const data:Clipboard = e.clipboard;
 				if (data.hasFormat(ClipboardFormats.FILE_LIST_FORMAT))
 				{
 					NativeDragManager.acceptDragDrop(this);
