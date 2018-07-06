@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+カス削除くん
+
+The MIT License
+
+Copyright (c) 2010 Yasunobu Ikeda
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<s:MXDataGridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+						  xmlns:s="library://ns.adobe.com/flex/spark"
+						  xmlns:mx="library://ns.adobe.com/flex/mx"
+						  focusEnabled="true"
+						  dataChange="dataChangeHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import myproject.data.FileName;
+			import myproject.data.FolderName;
+
+			[Embed(source="/assets/icon_br.png")]
+			private static const ICON_BR:Class;
+			[Embed(source="/assets/icon_db.png")]
+			private static const ICON_DB:Class;
+
+			[Embed(source="/assets/icon_ds.png")]
+			private static const ICON_DS:Class;
+			[Embed(source="/assets/icon_ini.png")]
+			private static const ICON_INI:Class;
+			[Embed(source="/assets/icon_notes.png")]
+			private static const ICON_NOTES:Class;
+			[Embed(source="/assets/icon_svn.png")]
+			private static const ICON_SVN:Class;
+
+			protected function dataChangeHandler(event:FlexEvent):void
+			{
+				var o:* = data;
+				var file:File = data as File;
+				if (file.name == FileName.DOT_DS_STORE)
+				{
+					img.source = ICON_DS;
+				}
+				else if (file.name == FileName.THUMBS_DB)
+				{
+					img.source = ICON_DB;
+				}
+				else if (file.name == FileName.DOT_BRIDGE_SORT)
+				{
+					img.source = ICON_BR;
+				}
+				else if (file.name.toLowerCase() == FileName.DESKTOP_DOT_INI.toLowerCase())
+				{
+					img.source = ICON_INI;
+				}
+				else if (file.name == FolderName._NOTES)
+				{
+					img.source = ICON_NOTES;
+				}
+				else if (file.name == FolderName.DOT_SVN)
+				{
+					img.source = ICON_SVN;
+				}
+				else
+				{
+					img.source = ICON_DS;
+				}
+				fileName.text = file.name;
+			}
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:HorizontalLayout gap="2"
+							verticalAlign="middle"
+							paddingLeft="2"/>
+	</s:layout>
+	<s:BitmapImage id="img"
+				   width="15"
+				   height="18"/>
+	<s:Label id="fileName" width="100%"/>
+
+</s:MXDataGridItemRenderer>

@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+カス削除くん
+
+The MIT License
+
+Copyright (c) 2010 Yasunobu Ikeda
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   creationComplete="init()"
+					   backgroundColor="0xd6d6d6"
+					   preinitialize="preinitializeHandler(event)">
+	<s:layout>
+		<s:VerticalLayout paddingBottom="15"
+						  paddingTop="15"
+						  gap="15"/>
+	</s:layout>
+	<fx:Style source="skins/scope_skins.css"/>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		global{
+			modalTransparency: 0.5;
+			modalTransparencyBlur: 0;
+			modalTransparencyColor: #000000;
+			modalTransparencyDuration: 0;
+		}
+		
+		s|WindowedApplication{
+			background-alpha:0;
+			background-color:#d6d6d6;
+		}
+		
+		s|Label{
+			color:#444444;
+			font-size:11px;
+		}
+	</fx:Style>
+
+
+	<fx:Script>
+		<![CDATA[
+			import jp.nium.core.debug.Logger;
+			import jp.progression.commands.lists.SerialList;
+			
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.managers.PopUpManager;
+			
+			import myproject.commands.SearchFileCommand;
+			import myproject.commands.SearchFileCommand2;
+			import myproject.data.FileName;
+			import myproject.data.FolderName;
+			import myproject.data.SelectedForm;
+			import myproject.ui.ProgressPanel;
+
+			[Bindable]
+			private var _dir:File;
+			private var _fileArr:Array;
+			private var _progressPanel:ProgressPanel;
+			private var _cmd:SerialList;
+
+			/**
+			 * 非同期コマンドを中断します。
+			 */
+			public function interruptSearch():void
+			{
+				_cmd.interrupt();
+				_cmd = null;
+
+				_fileArr = [];
+				_fileArrCl.source = _fileArr;
+				_fileNum = _fileArr.length;
+
+				PopUpManager.removePopUp(_progressPanel);
+			}
+
+			/**
+			 * アプリケーションを初期化します。
+			 */
+			protected function init():void
+			{
+				this.addEventListener(NativeDragEvent.NATIVE_DRAG_ENTER, onNativeDragEnter);
+				this.addEventListener(NativeDragEvent.NATIVE_DRAG_DROP, onNativeDragDrop);
+				nativeApplication.addEventListener(Event.EXITING, onExiting);
+
+				_progressPanel = new ProgressPanel();
+				_progressPanel.path = this;
+
+				resumeSharedObject();
+				
+				var message:XML = this.nativeApplication.applicationDescriptor;
+				var atom:Namespace = new Namespace("http://ns.adobe.com/air/application/2.5");
+				versionLabel.text = "Version " + message.atom::versionNumber;
+			}
+
+			protected function preinitializeHandler(event:FlexEvent):void
+			{
+				var os:String = Capabilities.os.substr(0, 3);
+				var fontFamily:String;
+				switch (os)
+				{
+					case "Win":
+						fontFamily = "メイリオ";
+						break;
+					case "Mac":
+						fontFamily = "ヒラギノ角ゴ Pro W3";
+						break;
+					case "Lin":
+						fontFamily = "さざなみゴシック";
+						break;
+				}
+
+				if (fontFamily != null)
+				{
+					var styleDeclaration:CSSStyleDeclaration = StyleManager["getStyleDeclaration"]("global");
+					styleDeclaration.setStyle("fontFamily", fontFamily);
+					StyleManager["setStyleDeclaration"]("global", styleDeclaration, true);
+				}
+			}
+
+			/**
+			 * ファイル検索前に準備を行います。
+			 */
+			protected function searchPreparation(selectedFile:File):void
+			{
+				if (!selectedFile && !selectedFile.isDirectory)
+					return;
+
+				_tiPath.text = selectedFile.nativePath;
+
+				searchFiles();
+			}
+
+			protected function searchFiles():void
+			{
+				var self:* = this;
+				
+				var form:SelectedForm = new SelectedForm();
+				form.selectedCheckChild = _cbChild.selected;
+				form.selected___MACOSX = _cbMACOSX.selected;
+				form.selected__NOTES = _cbDreamWeaver.selected;
+				form.selected_APPLE_DOUBLE = _cbAppleDouble.selected;
+				form.selected_DESKTOP_DOT_INI = _cbDesktopIni.selected;
+				form.selected_DOT_BRIDGE_LABELS_AND_RATINGS = _cbBridgeSL.selected;
+				form.selected_DOT_BRIDGE_SORT = _cbBridge.selected;
+				form.selected_DOT_DS_STORE = _cbDSStore.selected;
+				form.selected_DOT_SVN = _cbSVN.selected;
+				form.selected_THUMBS_DB = _cbThumb.selected;
+				
+				var searchCommand:SearchFileCommand = new SearchFileCommand(_dir, form);
+				searchCommand.onPosition = function():void
+				{
+					_progressPanel.progress.label = "検索中(" + searchCommand.seachCount + "項目)";
+				};
+				
+				var oldTime:Number = getTimer();
+				
+				// 非同期処理用コマンドの作成
+				_cmd = new SerialList();
+				_cmd.onComplete = _cmd.onInterrupt = function():void
+				{
+					_cmd.dispose();
+					_cmd = null;
+					
+					try{
+						System.gc();
+					}catch(e:*){}
+				};
+				_cmd.addCommand(
+					// 初期化
+					function():void{
+						_fileArr = [];
+						_fileArrCl.source = _fileArr;
+						_fileNum = _fileArr.length;
+						PopUpManager.addPopUp(_progressPanel, self, true);
+						PopUpManager.centerPopUp(_progressPanel);
+					},
+					// 検索開始
+					searchCommand,
+					// 終了処理
+					function():void{
+						Logger.info("検索時間", (getTimer() - oldTime)/1000 + "秒");
+						_fileArr = searchCommand.fileArr.concat();
+						_fileArrCl.source = _fileArr;
+						_fileNum = _fileArr.length;
+						PopUpManager.removePopUp(_progressPanel);
+					}
+					);
+				// コマンドの実行
+				_cmd.execute();
+			}
+
+			protected function onNativeDragEnter(e:NativeDragEvent):void
+			{
+				var data:Clipboard = e.clipboard;
+				if (data.hasFormat(ClipboardFormats.FILE_LIST_FORMAT))
+				{
+					NativeDragManager.acceptDragDrop(this);
+				}
+			}
+
+			protected function onNativeDragDrop(event:NativeDragEvent):void
+			{
+				// クリップボードからデータを取り出す
+				var clipboard:Clipboard = event.clipboard;
+				var list:Array = clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array;
+
+				searchPreparation(_dir = list[0]);
+			}
+
+			protected function selectButton_clickHandler():void
+			{
+				_dir = new File();
+				_dir.addEventListener(Event.SELECT, dir_selectHandler);
+				_dir.addEventListener(Event.CANCEL, dir_cancelHandler);
+				_dir.browseForDirectory("フォルダを選択");
+			}
+
+			protected function dir_cancelHandler(event:Event):void
+			{
+				destroyDirEvents();
+				_dir = null;
+			}
+
+			protected function dir_selectHandler(event:Event):void
+			{
+				destroyDirEvents();
+				searchPreparation(event.target as File);
+			}
+			
+			protected function destroyDirEvents():void
+			{
+				_dir.removeEventListener(Event.SELECT, dir_selectHandler);
+				_dir.removeEventListener(Event.CANCEL, dir_cancelHandler);
+			}
+			
+
+			protected function deleteButton_clickHandler(event:MouseEvent):void
+			{
+				Alert.show(
+					"\n" +
+					"カスファイル " + _fileNum + " 項目を削除します。\n" +
+					"\n" +
+					"この処理はキャンセルできませんが、\n" +
+					"実行しますか？",
+					"確認", 3, null, alert_closeHandler);
+			}
+
+			protected function reload_clickHandler(event:Event):void
+			{
+				if (!_dir)
+					return;
+
+				searchFiles();
+			}
+
+			protected function alert_closeHandler(event:CloseEvent):void
+			{
+				if (event.detail == Alert.YES)
+				{
+					for (var i:int = 0; i < _fileArr.length; i++)
+					{
+						var element:File = _fileArr[i];
+						if (element.isDirectory)
+							element.deleteDirectory(true);
+						else
+							element.deleteFile();
+					}
+
+					_fileArr = [];
+					_fileArrCl.source = _fileArr;
+					_fileNum = _fileArr.length;
+
+					Alert.show("\n" + "カスを削除しました", "完了", 2);
+				}
+			}
+
+			protected function suspendSharedObject():void
+			{
+				var so:SharedObject = SharedObject.getLocal("config");
+				so.data.config = {
+						_cbThumb: _cbThumb.selected,
+						_cbDSStore: _cbDSStore.selected,
+						_cbSVN: _cbSVN.selected,
+						_cbDreamWeaver: _cbDreamWeaver.selected,
+						_cbBridge: _cbBridge.selected,
+						_cbBridgeSL: _cbBridgeSL.selected,
+						_cbChild: _cbChild.selected,
+						_cbDesktopIni: _cbDesktopIni.selected,
+						_cbAppleDouble: _cbAppleDouble.selected,
+						_cbMACOSX: _cbMACOSX.selected
+					};
+				so.flush();
+			}
+
+			protected function resumeSharedObject():void
+			{
+				var so:SharedObject = SharedObject.getLocal("config");
+				if (so.data.config)
+				{
+					_cbThumb.selected = so.data.config._cbThumb;
+					_cbDSStore.selected = so.data.config._cbDSStore;
+					_cbSVN.selected = so.data.config._cbSVN;
+					_cbDreamWeaver.selected = so.data.config._cbDreamWeaver;
+					_cbBridge.selected = so.data.config._cbBridge;
+					_cbBridgeSL.selected = so.data.config._cbBridgeSL;
+					_cbChild.selected = so.data.config._cbChild;
+					_cbDesktopIni.selected = so.data.config._cbDesktopIni;
+					_cbAppleDouble.selected = so.data.config._cbAppleDouble;
+					_cbMACOSX.selected = so.data.config._cbMACOSX;
+				}
+			}
+
+			protected function _listFile_itemDoubleClickHandler(event:ListEvent):void
+			{
+				var file:File = (_listFile.selectedItem as File);
+				Alert.show("\n" + file.nativePath, "ファイルのフルパス");
+			}
+
+			protected function version_clickHandler(event:MouseEvent):void
+			{
+				navigateToURL(new URLRequest("http://code.google.com/p/clockmaker-tools/"));
+			}
+
+
+			private function onExiting(event:Event):void
+			{
+				suspendSharedObject();
+			}
+
+			private function fileNameSortCompareFunction(obj1:Object, obj2:Object):Number
+			{
+				var file1:File = obj1 as File;
+				var file2:File = obj2 as File;
+				return file1.name > file2.name ? 1 : -1;
+			};
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<!-- 非ビジュアルエレメント (サービス、値オブジェクトなど) をここに配置 -->
+		<s:ArrayCollection id="_fileArrCl"/>
+		<fx:uint id="_fileNum"/>
+	</fx:Declarations>
+
+	<s:Group width="100%">
+
+		<s:layout>
+			<s:HorizontalLayout paddingLeft="15"
+								paddingRight="15"
+								verticalAlign="middle"/>
+		</s:layout>
+
+		<mx:Button label="フォルダを選択する"
+				   click="selectButton_clickHandler()"
+				   width="180"
+				   height="30"
+				   toolTip="もしくはフォルダをドラッグ＆ドロップしてください"
+				   icon="@Embed(source='/assets/folder.png')"/>
+
+		<mx:Button label="カスファイルを削除する"
+				   click="deleteButton_clickHandler(event)"
+				   enabled="{_fileNum > 0}"
+				   width="180"
+				   height="30"
+				   icon="@Embed(source='/assets/cross.png')"/>
+
+		<mx:Spacer width="100%"/>
+		<s:Label id="versionLabel"
+				 text="Version"
+				 click="version_clickHandler(event)"
+				 buttonMode="true"
+				 toolTip="開発者のサイトを開きます"
+				 fontSize="9"/>
+	</s:Group>
+
+	<mx:HRule width="100%"/>
+
+	<s:HGroup width="100%"
+			  height="100%"
+			  paddingLeft="15"
+			  paddingRight="15"
+			  gap="3">
+
+		<s:VGroup width="100%"
+				  height="100%">
+
+			<s:Label text="選択したフォルダ"/>
+			<s:HGroup width="100%">
+
+				<s:TextInput id="_tiPath"
+							 width="100%"
+							 height="30"
+							 editable="false"/>
+				<mx:Button label="再検索"
+						   click="reload_clickHandler(event)"
+						   toolTip="選択したフォルダからカスファイルを再検索します"
+						   height="30"
+						   icon="@Embed(source='/assets/arrow_rotate_clockwise.png')"/>
+			</s:HGroup>
+
+			<s:Label text="{'見つかったカスファイル (' + _fileNum + '項目)'}"/>
+
+			<s:BorderContainer width="100%"
+							   height="100%"
+							   borderColor="0xFFFFFF">
+				<mx:DataGrid id="_listFile"
+							 width="100%"
+							 height="100%"
+							 dataProvider="{_fileArrCl}"
+							 doubleClickEnabled="true"
+							 itemDoubleClick="_listFile_itemDoubleClickHandler(event)">
+					<mx:columns>
+						<mx:DataGridColumn headerText="ファイル"
+										   width="100"
+										   itemRenderer="myproject.ui.IconRenderer"
+										   sortCompareFunction="{fileNameSortCompareFunction}"/>
+						<mx:DataGridColumn headerText="フルパス"
+										   dataField="nativePath"/>
+					</mx:columns>
+				</mx:DataGrid>
+			</s:BorderContainer>
+		</s:VGroup>
+
+		<s:VGroup width="180"
+				  height="100%">
+
+			<s:HGroup>
+				<s:BitmapImage source="@Embed('/assets/magnifier.png')"/>
+				<s:Label text="検索対象"/>
+			</s:HGroup>
+
+			<mx:VBox paddingBottom="10"
+					 paddingLeft="10"
+					 paddingRight="10"
+					 paddingTop="10"
+					 verticalGap="10"
+					 verticalScrollPolicy="auto"
+					 horizontalScrollPolicy="off"
+					 height="100%"
+					 width="100%"
+					 backgroundColor="0xDDDDDD"
+					 borderStyle="inset"
+					 borderColor="0x6e6e6e"
+					 minHeight="320">
+
+				<s:Label text="オプション"
+						 fontWeight="bold"/>
+				<s:VGroup>
+					<s:CheckBox id="_cbChild"
+								 label="サブフォルダも含める"
+								 selected="true"/>
+				</s:VGroup>
+
+				<mx:HRule width="100%"/>
+
+				<s:Label text="Windows 関連"
+						 fontWeight="bold"/>
+				<s:VGroup>
+					<s:CheckBox id="_cbThumb"
+								 label="{FileName.THUMBS_DB}"
+								 selected="true"
+								 toolTip="Windows のカスファイルです。"/>
+					<s:CheckBox id="_cbDesktopIni"
+								 label="{FileName.DESKTOP_DOT_INI}"
+								 selected="true"
+								 toolTip="Windows のカスファイルです。"/>
+				</s:VGroup>
+
+				<mx:HRule width="100%"/>
+
+				<s:Label text="Mac OS X 関連"
+						 fontWeight="bold"/>
+				<s:VGroup>
+					<s:CheckBox id="_cbDSStore"
+								 label="{FileName.DOT_DS_STORE}"
+								 selected="true"
+								 toolTip="Mac OS X のカスファイルです。"/>
+					<s:CheckBox id="_cbMACOSX"
+								 label="{FolderName.__MACOSX + ' フォルダ'}"
+								 selected="true"
+								 toolTip="Mac OS X のカスフォルダです。"/>
+					<s:CheckBox id="_cbAppleDouble"
+								 label="AppleDouble File"
+								 selected="true"
+								 toolTip="ファイル名の接頭辞として「._」が付くファイル"/>
+				</s:VGroup>
+
+				<mx:HRule width="100%"/>
+				<s:Label text="バージョン管理システム関連"
+						 fontWeight="bold"/>
+				<s:VGroup>
+					<s:CheckBox id="_cbSVN"
+								 label=".svn フォルダ"
+								 selected="false"
+								 toolTip="Subversion のカスフォルダです。"/>
+				</s:VGroup>
+
+				<mx:HRule width="100%"/>
+				<s:Label text="Creative Suite 関連"
+						 fontWeight="bold"/>
+				<s:VGroup>
+					<s:CheckBox id="_cbBridge"
+								 label=".BridgeSort"
+								 selected="false"
+								 toolTip="Adobe Bridge のカスファイルです。"/>
+					<s:CheckBox id="_cbBridgeSL"
+								 label="{FileName.DOT_BRIDGE_LABELS_AND_RATINGS}"
+								 selected="false"
+								 toolTip="Adobe Bridge のカスファイルです。"/>
+					<s:CheckBox id="_cbDreamWeaver"
+								 label="_notes フォルダ"
+								 selected="false"
+								 toolTip="Adobe Dreamweaver のカスフォルダです。"/>
+				</s:VGroup>
+			</mx:VBox>
+		</s:VGroup>
+
+	</s:HGroup>
+
+</s:WindowedApplication>

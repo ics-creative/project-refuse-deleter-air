@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<actionScriptProperties analytics="false" mainApplicationPath="RefuseDeleter.mxml" projectUUID="a9f42e62-1d00-4afe-a325-712948f426bb" version="11">
+  <compiler additionalCompilerArguments="-locale ja_JP -default-frame-rate=60" autoRSLOrdering="true" copyDependentFiles="true" flexSDK="Apache Flex 4.16.0 FP24.0 AIR24.0 en_US" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" useFlashSDK="false" verifyDigests="true" warn="true">
+    <compilerSourcePath/>
+    <libraryPath defaultLinkType="0">
+      <libraryPathEntry kind="4" path="">
+        <excludedEntries>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flex.swc" useDefaultLinkType="false"/>
+        </excludedEntries>
+      </libraryPathEntry>
+      <libraryPathEntry kind="1" linkType="1" path="libs"/>
+    </libraryPath>
+    <sourceAttachmentPath/>
+  </compiler>
+  <applications>
+    <application path="RefuseDeleter.mxml">
+      <airExcludes/>
+    </application>
+  </applications>
+  <modules/>
+  <workers/>
+  <buildCSSFiles/>
+  <flashCatalyst validateFlashCatalystCompatibility="false"/>
+  <buildTargets>
+    <buildTarget buildTargetName="default" platformId="default">
+      <airSettings airCertificatePath="//Mac/Dropbox for Business/project/Utils/trunk/RefuseDeleter/clockmaker.p12" airTimestamp="false" anePathSet="true" version="1">
+        <airExcludes/>
+        <anePaths/>
+        <newLaunchParams/>
+        <modifiedLaunchParams/>
+        <newPackagingParams/>
+        <modifiedPackagingParams/>
+      </airSettings>
+      <actionScriptSettings version="1"/>
+    </buildTarget>
+  </buildTargets>
+</actionScriptProperties>
+

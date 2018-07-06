@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+カス削除くん
+
+The MIT License
+
+Copyright (c) 2010 Yasunobu Ikeda
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   title="検索中..."
+			   width="300"
+			   close="clickHandler()">
+	<s:layout>
+		<s:VerticalLayout horizontalAlign="center"
+						  paddingTop="20"
+						  paddingBottom="20"
+						  paddingLeft="20"
+						  paddingRight="20"/>
+	</s:layout>
+
+	<fx:Script>
+		<![CDATA[
+			public var path:RefuseDeleter;
+
+			protected function clickHandler():void
+			{
+				path.interruptSearch();
+			}
+		]]>
+	</fx:Script>
+
+	<mx:ProgressBar id="progress"
+					label="検索中"
+					indeterminate="true"
+					width="100%"/>
+	<mx:Button label="キャンセル"
+			   click="clickHandler()"/>
+</s:TitleWindow>

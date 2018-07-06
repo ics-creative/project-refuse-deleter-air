@@ -1,0 +1,194 @@
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace s "library://ns.adobe.com/flex/spark";
+
+
+s|Application
+{
+	background-color:#E8E8E8;
+}
+
+mx|Slider
+{
+	thumbDisabledSkin: Embed(source="scope_skins.swf", symbol="SliderThumb_disabledSkin");
+	thumbDownSkin: Embed(source="scope_skins.swf", symbol="SliderThumb_downSkin");
+	thumbOverSkin: Embed(source="scope_skins.swf", symbol="SliderThumb_overSkin");
+	thumbUpSkin: Embed(source="scope_skins.swf", symbol="SliderThumb_upSkin");
+	trackSkin: Embed(source="scope_skins.swf", symbol="SliderTrack_Skin");
+}
+
+mx|HSlider
+{
+	thumbDisabledSkin: Embed(source="scope_skins.swf", symbol="SliderThumb_disabledSkin");
+	thumbDownSkin: Embed(source="scope_skins.swf", symbol="SliderThumb_downSkin");
+	thumbOverSkin: Embed(source="scope_skins.swf", symbol="SliderThumb_overSkin");
+	thumbUpSkin: Embed(source="scope_skins.swf", symbol="SliderThumb_upSkin");
+	trackSkin: Embed(source="scope_skins.swf", symbol="SliderTrack_Skin");
+}
+
+mx|VSlider
+{
+	thumbDisabledSkin: Embed(source="scope_skins.swf", symbol="SliderThumb_disabledSkin");
+	thumbDownSkin: Embed(source="scope_skins.swf", symbol="SliderThumb_downSkin");
+	thumbOverSkin: Embed(source="scope_skins.swf", symbol="SliderThumb_overSkin");
+	thumbUpSkin: Embed(source="scope_skins.swf", symbol="SliderThumb_upSkin");
+	trackSkin: Embed(source="scope_skins.swf", symbol="SliderTrack_Skin");
+}
+
+mx|TabBar
+{
+	firstButtonStyleName: "tabStyle";
+	tabStyleName: "tabStyle";
+	lastButtonStyleName: "tabStyle";
+	selectedTabTextStyleName: "selectedTabStyle";
+}
+
+.selectedTabStyle 
+{
+	fontWeight: bold;
+}
+
+.tabStyle {
+	skin: ClassReference("skins.ScopeTabSkin");
+	
+	color: #000000;
+	
+	fontWeight: bold;
+	fontSize: 12;
+}
+
+mx|AccordionHeader
+{
+	disabledSkin: Embed(source="scope_skins.swf", symbol="AccordionHeader_disabledSkin");
+	downSkin: Embed(source="scope_skins.swf", symbol="AccordionHeader_downSkin");
+	overSkin: Embed(source="scope_skins.swf", symbol="AccordionHeader_overSkin");
+	selectedDisabledSkin: Embed(source="scope_skins.swf", symbol="AccordionHeader_disabledSkin");
+	selectedDownSkin: Embed(source="scope_skins.swf", symbol="AccordionHeader_selectedSkin");
+	selectedOverSkin: Embed(source="scope_skins.swf", symbol="AccordionHeader_selectedSkin");
+	selectedUpSkin: Embed(source="scope_skins.swf", symbol="AccordionHeader_selectedSkin");
+	upSkin: Embed(source="scope_skins.swf", symbol="AccordionHeader_upSkin");
+	
+	color: #000000;
+	
+	fontWeight: normal;
+	fontSize: 12;
+}
+
+mx|Accordion
+{
+	borderColor: #686868;
+	headerHeight: 25;
+	color: #000000;
+	
+	textRollOverColor: #000000;
+	textSelectedColor: #000000;
+	backgroundColor: #F3F3F3;
+}
+
+mx|ColorPicker
+{
+	disabledSkin: Embed(source="scope_skins.swf", symbol="ColorPicker_disabledSkin");
+	downSkin: Embed(source="scope_skins.swf", symbol="ColorPicker_downSkin");
+	overSkin: Embed(source="scope_skins.swf", symbol="ColorPicker_overSkin");
+	upSkin: Embed(source="scope_skins.swf", symbol="ColorPicker_upSkin");
+}
+
+mx|Button
+{
+	disabledSkin: Embed(source="scope_skins.swf", symbol="Button_disabledSkin");
+	downSkin: Embed(source="scope_skins.swf", symbol="Button_downSkin");
+	overSkin: Embed(source="scope_skins.swf", symbol="Button_overSkin");
+	upSkin: Embed(source="scope_skins.swf", symbol="Button_upSkin");
+
+	color: #000000;
+	
+	fontWeight: normal;
+	fontSize: 11;
+	leading: 0;
+	textRollOverColor: #000000;
+	textSelectedColor: #000000;
+}
+
+mx|CheckBox
+{
+	padding-top:0;
+	padding-bottom:0;
+	label-vertical-offset:0;
+	
+	disabledIcon: Embed(source="scope_skins.swf", symbol="CheckBox_disabledIcon");
+	downIcon: Embed(source="scope_skins.swf", symbol="CheckBox_downIcon");
+	overIcon: Embed(source="scope_skins.swf", symbol="CheckBox_overIcon");
+	selectedDisabledIcon: Embed(source="scope_skins.swf", symbol="CheckBox_selectedDisabledIcon");
+	selectedDownIcon: Embed(source="scope_skins.swf", symbol="CheckBox_selectedDownIcon");
+	selectedOverIcon: Embed(source="scope_skins.swf", symbol="CheckBox_selectedOverIcon");
+	selectedUpIcon: Embed(source="scope_skins.swf", symbol="CheckBox_selectedUpIcon");
+	upIcon: Embed(source="scope_skins.swf", symbol="CheckBox_upIcon");
+}
+
+mx|RadioButton
+{
+	disabledIcon: Embed(source="scope_skins.swf", symbol="RadioButton_disabledIcon");
+	downIcon: Embed(source="scope_skins.swf", symbol="RadioButton_downIcon");
+	overIcon: Embed(source="scope_skins.swf", symbol="RadioButton_overIcon");
+	upIcon: Embed(source="scope_skins.swf", symbol="RadioButton_upIcon");
+	selectedDisabledIcon: Embed(source="scope_skins.swf", symbol="RadioButtonSelected_disabledIcon");
+	selectedDownIcon: Embed(source="scope_skins.swf", symbol="RadioButtonSelected_downIcon");
+	selectedOverIcon: Embed(source="scope_skins.swf", symbol="RadioButtonSelected_overIcon");
+	selectedUpIcon: Embed(source="scope_skins.swf", symbol="RadioButtonSelected_upIcon");
+}
+
+mx|HDividedBox
+{
+	dividerSkin: Embed(source="scope_skins.swf", symbol="DividedBox_dividerSkin");
+}
+
+mx|Tree
+{
+	color: #000000;
+	
+	folderOpenIcon: Embed(source="assets/icon_folder.png");
+	folderClosedIcon: Embed(source="assets/icon_folder.png");
+	disclosureClosedIcon: Embed(source="assets/icon_treeArrowClosed.png");
+	disclosureOpenIcon: Embed(source="assets/icon_treeArrowOpen.png");
+	rollOverColor: #CEDBEF;
+	selectionColor: #A8C6EE;
+}
+mx|Panel
+{
+	borderSkin: Embed(source="scope_skins.swf", symbol="Panel_borderSkin");
+	color: #000000;
+	
+	textAlign: "center";
+	fontSize: 12;
+	headerHeight: 23;
+}
+mx|ScrollBar,s|ScrollBarBase
+{
+	thumbIcon: Embed(source="scope_skins.swf", symbol="ScrollBar_thumbIcon");
+	downArrowDisabledSkin: Embed(source="scope_skins.swf", symbol="ScrollArrowDown_disabledSkin");
+    downArrowDownSkin: Embed(source="scope_skins.swf", symbol="ScrollArrowDown_downSkin");
+    downArrowOverSkin: Embed(source="scope_skins.swf", symbol="ScrollArrowDown_overSkin");
+    downArrowUpSkin: Embed(source="scope_skins.swf", symbol="ScrollArrowDown_upSkin");
+    upArrowDisabledSkin: Embed(source="scope_skins.swf", symbol="ScrollArrowUp_disabledSkin");
+    upArrowDownSkin: Embed(source="scope_skins.swf", symbol="ScrollArrowUp_downSkin");
+    upArrowOverSkin: Embed(source="scope_skins.swf", symbol="ScrollArrowUp_overSkin");
+    upArrowUpSkin: Embed(source="scope_skins.swf", symbol="ScrollArrowUp_upSkin");
+	thumbDownSkin: Embed(source="scope_skins.swf", symbol="ScrollThumb_downSkin");
+    thumbOverSkin: Embed(source="scope_skins.swf", symbol="ScrollThumb_overSkin");
+    thumbUpSkin: Embed(source="scope_skins.swf", symbol="ScrollThumb_upSkin");
+	trackSkin: Embed(source="scope_skins.swf", symbol="ScrollTrack_Skin");
+
+}
+mx|ProgressBar
+{
+	/*
+	barSkin: Embed(source="scope_skins.swf", symbol="ProgressTrackSkin");
+	indeterminateSkin: Embed(source="scope_skins.swf", symbol="ProgressIndeterminateSkin");
+	trackSkin: Embed(source="scope_skins.swf", symbol="ProgressBarSkin");
+	
+	*/
+	color: #000000;
+	
+	fontWeight: normal;
+	
+}
+
