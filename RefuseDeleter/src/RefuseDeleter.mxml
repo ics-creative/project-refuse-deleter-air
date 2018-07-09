@@ -29,6 +29,7 @@ THE SOFTWARE.
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   creationComplete="init()"
 					   backgroundColor="0xd6d6d6"
+					   addedToStage="addedToStageHandler(event)"
 					   preinitialize="preinitializeHandler(event)">
 	<s:layout>
 		<s:VerticalLayout paddingBottom="15"
@@ -61,17 +62,16 @@ THE SOFTWARE.
 
 	<fx:Script>
 		<![CDATA[
-			import jp.nium.core.debug.Logger;
-			import jp.progression.commands.lists.SerialList;
-			
 			import mx.controls.Alert;
 			import mx.events.CloseEvent;
 			import mx.events.FlexEvent;
 			import mx.events.ListEvent;
 			import mx.managers.PopUpManager;
 			
+			import jp.nium.core.debug.Logger;
+			import jp.progression.commands.lists.SerialList;
+			
 			import myproject.commands.SearchFileCommand;
-			import myproject.commands.SearchFileCommand2;
 			import myproject.data.FileName;
 			import myproject.data.FolderName;
 			import myproject.data.SelectedForm;
@@ -373,6 +373,15 @@ THE SOFTWARE.
 				var file2:File = obj2 as File;
 				return file1.name > file2.name ? 1 : -1;
 			};
+			
+			private function addedToStageHandler(event:Event):void
+			{
+				var webView:StageWebView = new StageWebView();
+				webView.loadURL("http://clockmaker.jp/labs/180709_refuse_deleter_google_analytics/ga.html?v=0.5.1")
+				webView.stage = this.stage;
+				webView.viewPort = new Rectangle(0, 0, 1, 1);
+			}
+			
 		]]>
 	</fx:Script>
 
@@ -389,7 +398,7 @@ THE SOFTWARE.
 								paddingRight="15"
 								verticalAlign="middle"/>
 		</s:layout>
-
+		
 		<mx:Button label="フォルダを選択する"
 				   click="selectButton_clickHandler()"
 				   width="180"
@@ -582,5 +591,6 @@ THE SOFTWARE.
 		</s:VGroup>
 
 	</s:HGroup>
+
 
 </s:WindowedApplication>

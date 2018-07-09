@@ -1,11 +1,5 @@
 .svn
 .DS_Store
 Thumbs.db
-/RefuseDeleter/bin-debug/RefuseDeleter.swf
-/RefuseDeleter/bin-debug/RefuseDeleter-app.xml
-/RefuseDeleter/bin-debug/icons/icon.psd
-/RefuseDeleter/bin-debug/icons/icon_512.png
-/RefuseDeleter/bin-debug/icons/icon_256.png
-/RefuseDeleter/bin-debug/icons/icon_128.png
-/RefuseDeleter/bin-debug/icons/icon_1024.png
-/RefuseDeleter/bin-debug/icons/icon_064.png
+/RefuseDeleter/bin-debug
+/RefuseDeleter/src/.idea
