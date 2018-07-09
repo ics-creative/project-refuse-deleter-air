@@ -520,9 +520,9 @@ THE SOFTWARE.
 								 selected="true"
 								 toolTip="macOS のカスフォルダです。"/>
 					<s:CheckBox id="_cbAppleDouble"
-								 label="AppleDouble File"
+								 label="AppleDouble"
 								 selected="true"
-								 toolTip="ファイル名の接頭辞として「._」が付くファイル"/>
+								 toolTip="ファイル名の接頭辞として「._」が付くファイル。macOSからは削除できません。"/>
 				</s:VGroup>
 
 				<mx:HRule width="100%"/>
