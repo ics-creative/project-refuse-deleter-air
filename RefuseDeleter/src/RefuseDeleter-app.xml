@@ -6,7 +6,7 @@
 
 The MIT License
 
-Copyright (c) 2010 Yasunobu Ikeda
+Copyright (c) 2018 Yasunobu Ikeda
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -78,10 +78,10 @@ THE SOFTWARE.
 		<!-- <resizable></resizable> -->
 
 		<!-- The window's initial width. Optional. -->
-		<width>640</width>
+		<width>800</width>
 
 		<!-- The window's initial height. Optional. -->
-		<height>480</height>
+		<height>600</height>
 
 		<!-- The window's initial x position. Optional. -->
 		<!-- <x></x> -->
