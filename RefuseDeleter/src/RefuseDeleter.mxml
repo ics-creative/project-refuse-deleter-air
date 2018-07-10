@@ -377,7 +377,7 @@ THE SOFTWARE.
 			private function addedToStageHandler(event:Event):void
 			{
 				var webView:StageWebView = new StageWebView();
-				webView.loadURL("http://clockmaker.jp/labs/180709_refuse_deleter_google_analytics/ga.html?v=0.5.1")
+				webView.loadURL("https://ics-creative.github.io/project-refuse-deleter-air/ga.html?v=0.5.0_Release")
 				webView.stage = this.stage;
 				webView.viewPort = new Rectangle(0, 0, 1, 1);
 			}
