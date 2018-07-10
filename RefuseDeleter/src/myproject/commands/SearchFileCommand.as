@@ -3,7 +3,7 @@
 
    The MIT License
 
-   Copyright (c) 2010 Yasunobu Ikeda
+   Copyright (c) 2018 Yasunobu Ikeda
 
    Permission is hereby granted, free of charge, to any person obtaining a copy
    of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,6 @@
 package myproject.commands
 {
 	import flash.filesystem.File;
-	import flash.system.System;
-	import flash.utils.getTimer;
 
 	import jp.progression.commands.Command;
 	import jp.progression.commands.Func;
