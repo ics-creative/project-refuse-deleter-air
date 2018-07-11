@@ -353,7 +353,8 @@ THE SOFTWARE.
 			protected function _listFile_itemDoubleClickHandler(event:ListEvent):void
 			{
 				var file:File = (_listFile.selectedItem as File);
-				Alert.show("\n" + file.nativePath, "ファイルのフルパス");
+				// 選択されたファイルを含むディレクトリを開く
+				file.parent.openWithDefaultApplication();
 			}
 
 			protected function version_clickHandler(event:MouseEvent):void
