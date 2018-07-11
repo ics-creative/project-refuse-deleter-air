@@ -1,4 +1,4 @@
-![](http://clockmaker.jp/blog/wp-content/uploads/2010/08/100830_refuse_01.jpg)
+![](docs/images/refuse_deleter_01.png)
 
 OS やファイル管理システムが作成する不可視ファイル（通称：カスファイル）を一括で削除するアプリです。主にWeb/RIA開発などでファイルを公開・納品するときなどに役立ちます。
 
@@ -20,7 +20,7 @@ OS やファイル管理システムが作成する不可視ファイル（通�
 
 Mac や Windows で作られる不可視ファイルは、OS をまたいでファイル交換をする場合にあって困るものではありませんが、別の OS の利用者から見たら気持ちのよいものでない場合もあります。「カス削除くん」はそういったカスファイルを一括で削除する便利アプリケーションです。
 
-![](http://clockmaker.jp/blog/wp-content/uploads/2010/08/100830_refuse_02.jpg)
+![](docs/images/refuse_deleter_02.png)
 
 ## 機能紹介
 
@@ -29,7 +29,7 @@ Mac や Windows で作られる不可視ファイルは、OS をまたいでフ�
 - 「Thumbs.db」 (Windows のカスファイル)
 - 「Desktop.ini」 (Windows のカスファイル)
 - 「.DS_Strore」 (macOS のカスファイル)
-- 「._」から始まるアップルダブルファイル (macOS のカスファイ- )
+- 「._」から始まるアップルダブルファイル (macOS のカスファイル ※Windowsのみで削除可能)
 - 「.git」 (Gitのカスフォルダー)
 - 「.gitignore」 (Gitのカスファイル)
 - 「.svn」 (サブバージョンのカスフォルダー)
