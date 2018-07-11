@@ -5,7 +5,7 @@ OS やファイル管理システムが作成する不可視ファイル（通�
 - [ダウンロードはこちら](https://github.com/ics-creative/project-refuse-deleter-air/blob/master/RefuseDeleter/air/RefuseDeleter_0.5.0.air?raw=true)
 
 
-次のリンクから「カス削除くん」の最新版の AIR アプリのファイルをダウンロードできます。AIR アプリなので、Windows/macOS/Linux のいずれの OS でも利用可能です。
+次のリンクから「カス削除くん」の最新版の AIR アプリのファイルをダウンロードできます。AIR アプリなので、Windows/macOS のいずれの OS でも利用可能です。
 
 ※最新版の [Adobe AIR ランタイム](http://www.adobe.com/go/getair/)が必要です。
 
