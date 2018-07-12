@@ -53,4 +53,5 @@ Mac や Windows で作られる不可視ファイルは、OS をまたいでフ�
 
 - [WindowsやMac OSが残す“カスファイル”を一掃する（第142回） \| 日経 xTECH（クロステック）](https://tech.nikkeibp.co.jp/it/pc/article/special/20101108/1028379/)
 - [不要になる不可視ファイルを一括削除「カス削除くん」 \- 今日のお気に入り \- 窓の杜](https://forest.watch.impress.co.jp/docs/serial/okiniiri/398205.html)
-- [リリース時の記事](http://clockmaker.jp/blog/2010/08/refusedeleter/)
+- [2010年の初版リリースの記事 \| ClockMaker Blog](http://clockmaker.jp/blog/2010/08/refusedeleter/)
+- [2018年の最新版リリースの記事 \| ClockMaker Blog](http://clockmaker.jp/blog/2018/07/refuse-deleter-2018/)
